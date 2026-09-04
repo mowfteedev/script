@@ -89,10 +89,16 @@ mkdir -p "$SOUNDPACKS_DIR"
 if [ -d "$BASE_DIR" ]; then
     echo "✓ Kho soundpack Wayclick_soundpacks đã tồn tại tại $BASE_DIR."
 else
-    echo "→ Đang clone kho soundpack Wayclick_soundpacks từ GitHub..."
-    git clone https://github.com/dusklinux/wayclick_soundpacks.git "$BASE_DIR"
-    echo "✓ Đã clone thành công kho soundpack Wayclick_soundpacks."
+    echo "→ Đang clone kho soundpack Wayclick từ GitHub..."
+    git clone https://github.com/dusklinux/wayclick_soundpacks.git "$BASE_DIR" || \
+    git clone https://github.com/cacoco/wayclick.git "$BASE_DIR"
+    echo "✓ Đã clone thành công kho soundpack Wayclick."
 fi
+
+# Chuẩn hóa cấu trúc config.json từ Wayclick ("mappings") sang Wayvibes ("defines")
+echo "→ Đồng bộ hóa định dạng soundpack cho Wayvibes..."
+find "$SOUNDPACKS_DIR" -name "config.json" -exec sed -i 's/"mappings":/"defines":/g' {} + 2>/dev/null || true
+echo "✓ Định dạng soundpack đã sẵn sàng cho Wayvibes."
 
 # ------------------------------------------------------------------------------
 # Bước 4: Thiết lập các file cấu hình và script vận hành
@@ -230,6 +236,11 @@ fi
 if ! [[ "$NEW_VOL" =~ ^([0-9](\.[0-9]+)?|10(\.0+)?)$ ]]; then
     echo "✗ Lỗi: Volume '$NEW_VOL' không hợp lệ. Phải nằm trong khoảng 0.0 đến 10.0 (ví dụ: 1.0, 2.5)"
     exit 1
+fi
+
+# Tự động đồng bộ hóa chuẩn defines cho soundpack
+if [ -f "$BASE_DIR/$TARGET_PACK/config.json" ]; then
+    sed -i 's/"mappings":/"defines":/g' "$BASE_DIR/$TARGET_PACK/config.json" 2>/dev/null || true
 fi
 
 # Lưu cấu hình bền vững
@@ -411,7 +422,7 @@ echo "  • Âm lượng (Volume): $CHOSEN_VOL"
 echo "  • Thiết bị ghim    : AT Translated Set 2 keyboard"
 echo "  • Systemd Service  : wayvibes.service ($(systemctl --user is-active wayvibes.service 2>/dev/null))"
 echo ""
-echo "Gợi ý: Thêm các alias sau vào ~/.bashrc (hoặc ~/.zshrc) để điều khiển nhanh:"
+echo "Gợi ý: Thêm các alias sau vào ~/.bashrc (nếu dùng Bash/Zsh) hoặc ~/.config/fish/config.fish (nếu dùng Fish):"
 echo "  alias way-switch=\"\$HOME/.config/wayvibes/switch.sh\""
 echo "  alias way-status=\"systemctl --user status wayvibes.service\""
 echo "  alias way-stop=\"systemctl --user stop wayvibes.service\""
