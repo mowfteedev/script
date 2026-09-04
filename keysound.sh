@@ -9,7 +9,7 @@ set -euo pipefail
 CONFIG_DIR="$HOME/.config/wayvibes"
 CONFIG_FILE="$CONFIG_DIR/config.env"
 SOUNDPACKS_DIR="$CONFIG_DIR/soundpacks"
-BASE_DIR="$SOUNDPACKS_DIR/wayclick"
+BASE_DIR="$SOUNDPACKS_DIR/wayclick_soundpacks"
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user"
 SERVICE_FILE="$SYSTEMD_USER_DIR/wayvibes.service"
 
@@ -81,17 +81,17 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-# Bước 3: Tải kho soundpack Wayclick
+# Bước 3: Tải kho soundpack Wayclick_soundpacks
 # ------------------------------------------------------------------------------
 echo ""
-echo "[Bước 3/6] Kiểm tra kho soundpack mặc định (Wayclick)..."
+echo "[Bước 3/6] Kiểm tra kho soundpack mặc định (Wayclick_soundpacks)..."
 mkdir -p "$SOUNDPACKS_DIR"
 if [ -d "$BASE_DIR" ]; then
-    echo "✓ Kho soundpack Wayclick đã tồn tại tại $BASE_DIR."
+    echo "✓ Kho soundpack Wayclick_soundpacks đã tồn tại tại $BASE_DIR."
 else
-    echo "→ Đang clone kho soundpack Wayclick từ GitHub..."
-    git clone https://github.com/cacoco/wayclick.git "$BASE_DIR"
-    echo "✓ Đã clone thành công kho soundpack Wayclick."
+    echo "→ Đang clone kho soundpack Wayclick_soundpacks từ GitHub..."
+    git clone https://github.com/dusklinux/wayclick_soundpacks.git "$BASE_DIR"
+    echo "✓ Đã clone thành công kho soundpack Wayclick_soundpacks."
 fi
 
 # ------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ set -euo pipefail
 
 CONFIG_DIR="$HOME/.config/wayvibes"
 CONFIG_FILE="$CONFIG_DIR/config.env"
-BASE_DIR="$CONFIG_DIR/soundpacks/wayclick"
+BASE_DIR="$CONFIG_DIR/soundpacks/wayclick_soundpacks"
 DEVICE_NAME="AT Translated Set 2 keyboard"
 
 # Đọc cấu hình nếu tồn tại
@@ -184,7 +184,7 @@ set -euo pipefail
 
 CONFIG_DIR="$HOME/.config/wayvibes"
 CONFIG_FILE="$CONFIG_DIR/config.env"
-BASE_DIR="$CONFIG_DIR/soundpacks/wayclick"
+BASE_DIR="$CONFIG_DIR/soundpacks/wayclick_soundpacks"
 
 declare -A ALIASES=(
     [unicomp]="unicomp_classic"
@@ -346,7 +346,7 @@ while true; do
             ;;
         [nN]|[nN][oO])
             echo ""
-            echo "Danh mục Soundpack có sẵn trong Wayclick:"
+            echo "Danh mục Soundpack có sẵn trong Wayclick_soundpacks:"
             echo "----------------------------------------------------------------------------------------"
             printf "%-10s | %-24s | %-18s | %s\n" "Alias" "Tên thư mục đầy đủ" "Loại switch" "Đặc trưng âm thanh"
             echo "----------------------------------------------------------------------------------------"
